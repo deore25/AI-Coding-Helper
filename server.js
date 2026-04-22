@@ -16,7 +16,7 @@ app.post("/ask-ai", async (req, res) => {
         const response = await axios.post(
             "https://openrouter.ai/api/v1/chat/completions",
             {
-                model: "openai/gpt-4o-mini",
+                model: "meta-llama/llama-3-70b-instruct",
                 messages: [
                     {
                         role: "system",
