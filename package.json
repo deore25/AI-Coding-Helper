@@ -1,0 +1,14 @@
+{
+  "name": "ai-coding-helper",
+  "version": "1.0.0",
+  "description": "Mini project using OpenRouter API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2"
+  }
+}
