@@ -10,51 +10,37 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.post("/ask-ai", async (req, res) => {
-    const userMessage = req.body.message;
-
     try {
         const response = await axios.post(
             "https://openrouter.ai/api/v1/chat/completions",
             {
                 model: "openai/gpt-4o-mini",
                 messages: [
-                    {
-                        role: "system",
-                        content: "You are a helpful coding assistant. Explain clearly and simply."
-                    },
-                    {
-                        role: "user",
-                        content: userMessage
-                    }
+                    { role: "system", content: "You are coding assistant." },
+                    { role: "user", content: req.body.message }
                 ]
             },
             {
                 headers: {
                     Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "https://ai-coding-helper.onrender.com",
+                    "HTTP-Referer": process.env.APP_URL,
                     "X-Title": "AI Coding Helper"
                 }
             }
         );
 
-        const reply =
-            response.data.choices?.[0]?.message?.content ||
-            "No AI response.";
-
-        res.json({ reply });
+        res.json({
+            reply: response.data.choices[0].message.content
+        });
 
     } catch (error) {
-        console.log("ERROR:", error.response?.data || error.message);
+        console.log(error.response?.data || error.message);
 
         res.json({
-            reply: "Error fetching AI response."
+            reply: "Deployment API Error."
         });
     }
 });
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(process.env.PORT || 3000);
