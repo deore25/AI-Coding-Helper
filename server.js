@@ -10,31 +10,42 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.post("/ask-ai", async (req, res) => {
+    const userMessage = req.body.message;
+
     try {
+        const apiKey = process.env.OPENROUTER_API_KEY.trim();
+
         const response = await axios.post(
             "https://openrouter.ai/api/v1/chat/completions",
             {
                 model: "openai/gpt-4o-mini",
                 messages: [
-                    { role: "system", content: "You are coding assistant." },
-                    { role: "user", content: req.body.message }
+                    {
+                        role: "system",
+                        content: "You are a helpful coding assistant. Explain clearly in simple words."
+                    },
+                    {
+                        role: "user",
+                        content: userMessage
+                    }
                 ]
             },
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": process.env.APP_URL,
-                    "X-Title": "AI Coding Helper"
+                    Authorization: `Bearer ${apiKey}`,
+                    "Content-Type": "application/json"
                 }
             }
         );
 
-        res.json({
-            reply: response.data.choices[0].message.content
-        });
+        const reply =
+            response.data?.choices?.[0]?.message?.content ||
+            "No response received.";
+
+        res.json({ reply });
 
     } catch (error) {
+        console.log("FULL ERROR:");
         console.log(error.response?.data || error.message);
 
         res.json({
@@ -43,4 +54,8 @@ app.post("/ask-ai", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
