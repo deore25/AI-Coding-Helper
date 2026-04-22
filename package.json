@@ -1,7 +1,7 @@
 {
   "name": "ai-coding-helper",
   "version": "1.0.0",
-  "description": "Mini project using OpenRouter API",
+  "description": "Mini Project using OpenRouter API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

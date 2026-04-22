@@ -1,19 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Coding Helper</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Coding Helper</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>AI Coding Helper</h1>
+<div class="app">
 
-    <textarea id="userInput" placeholder="Paste code or ask question..."></textarea>
+    <aside class="sidebar">
+        <h2>AI Helper</h2>
+        <p>VS Code Theme</p>
 
-    <button onclick="sendMessage()">Ask AI</button>
+        <div class="menu">
+            <div class="item active">💬 Chat</div>
+            <div class="item">🧠 Explain Code</div>
+            <div class="item">🐞 Debug</div>
+            <div class="item">⚡ Optimize</div>
+        </div>
+    </aside>
 
-    <div id="output"></div>
+    <main class="main">
+
+        <header class="topbar">
+            <span>AI Coding Helper</span>
+        </header>
+
+        <section class="chat-box" id="output">
+            Welcome! Ask coding questions or paste code.
+        </section>
+
+        <section class="input-area">
+            <textarea id="userInput" placeholder="Write code or ask anything..."></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </section>
+
+    </main>
+
 </div>
 
 <script src="script.js"></script>
